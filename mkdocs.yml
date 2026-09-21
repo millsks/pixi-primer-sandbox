@@ -44,16 +44,16 @@ theme:
     - content.action.edit
     - search.suggest
     - search.highlight
+  # No media queries: the first entry (light) is the default regardless of OS preference;
+  # the toggle still lets a reader switch to dark.
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
+    - scheme: default
       primary: teal
       accent: amber
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
+    - scheme: slate
       primary: teal
       accent: amber
       toggle:
