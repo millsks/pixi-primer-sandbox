@@ -35,7 +35,7 @@ the only runner.
 ## Setup
 
 ```sh
-mkdir -p sandbox/scripts-lab && cd sandbox/scripts-lab
+cp -r labs/scripts-lab sandbox/ && cd sandbox/scripts-lab
 ```
 
 No `pixi init` this time.

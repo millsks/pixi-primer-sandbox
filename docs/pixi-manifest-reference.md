@@ -19,9 +19,14 @@ sources:
 
 # pixi.toml Manifest Reference
 
-Verified against `pixi 0.81.0`. This is a reading document, not a lab — use it alongside the
-tutorials. Every snippet below is a complete, valid fragment you can paste into a sandbox
-manifest and check with `pixi lock --dry-run`.
+Verified against `pixi 0.81.0`. This is a reading document rather than a step-by-step lab —
+use it alongside the tutorials. `labs/manifest-lab/pixi.toml` is one solvable manifest that
+uses every table described here; copy it and experiment:
+
+```sh
+cp -r labs/manifest-lab sandbox/ && cd sandbox/manifest-lab
+pixi lock --dry-run      # re-run after every edit: parses and solves, writes nothing
+```
 
 Policy reminder for this primer: pixi configuration lives in `pixi.toml`. `pyproject.toml` is
 for Python tool configuration (pytest, ruff, mypy). Do not use `pixi init --format pyproject`.

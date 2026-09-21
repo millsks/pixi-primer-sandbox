@@ -15,11 +15,13 @@ written as a lab you run locally against a throwaway workspace. The guides live 
 
 ```sh
 git clone <this repo> && cd pixi-primer-sandbox
-mkdir -p sandbox
+cp -r labs/<lab> sandbox/ && cd sandbox/<lab>     # each guide's Setup section names its lab
 ```
 
-Every lab creates its workspace under `sandbox/` (gitignored) and ends with a cleanup step
-that removes it. Labs are independent of one another; `docs/README.md` gives a recommended
+`labs/` holds the pristine starting state of every lab (starter scripts, fixtures,
+`pyproject.toml` files); `sandbox/` is where you actually work and is gitignored apart from
+its `.gitkeep`. Each guide ends with a cleanup step that removes its sandbox workspace, and
+`rm -rf sandbox/<lab> && cp -r labs/<lab> sandbox/` restarts one from scratch. Labs are independent of one another; `docs/README.md` gives a recommended
 order for readers who want a course and a by-question lookup for readers who want an answer.
 
 ## Repository layout
@@ -28,7 +30,9 @@ order for readers who want a course and a by-question lookup for readers who wan
 README.md          this file: what the repo is, how to use it, document conventions
 docs/README.md     the index: learning order, "I want to..." lookup, list of all guides
 docs/pixi-*.md     the guides
-sandbox/           lab workspaces (gitignored, created by you)
+labs/README.md     index of lab directories and what each ships
+labs/<lab>/        pristine starter files for one lab — copy, never edit in place
+sandbox/           where copied labs are worked on (gitignored except .gitkeep)
 LICENSE
 ```
 

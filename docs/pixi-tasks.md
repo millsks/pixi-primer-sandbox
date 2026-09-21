@@ -30,10 +30,13 @@ line works on Linux, macOS, and Windows.
 ## Setup
 
 ```sh
-mkdir -p sandbox && cd sandbox
-pixi init tasks-lab && cd tasks-lab
-pixi add "python=3.14.*"
+cp -r labs/tasks-lab sandbox/ && cd sandbox/tasks-lab
+pixi init .
+pixi add "python=3.14.*" structlog
 ```
+
+The lab ships `scripts/where.py` (§4, logs with structlog — hence the dependency) and
+`in.txt` (§5).
 
 ---
 
@@ -141,7 +144,7 @@ test-all = { depends-on = [{ task = "test", args = ["tests/unit"] }, { task = "t
 ## 4. `cwd`, `env`, `clean-env`
 
 ```sh
-mkdir -p scripts && printf 'import os\nprint("cwd:", os.getcwd())\nprint("MODE:", os.environ.get("MODE"))\n' > scripts/where.py
+cat scripts/where.py
 pixi task add where 'python where.py' --cwd scripts --env MODE=dev
 pixi run where
 ```
@@ -174,7 +177,7 @@ gen = { cmd = "python -c \"open('out.txt','w').write(open('in.txt').read().upper
 ```
 
 ```sh
-echo hello > in.txt
+cat in.txt            # "hello", shipped with the lab
 pixi run gen          # runs
 pixi run gen          # cached, skipped
 echo again > in.txt

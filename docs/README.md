@@ -16,8 +16,8 @@ sources:
 # Pixi Primer — Where to Look
 
 Two ways in. **Learning order** if you want a course; **by need** if you have a question.
-Every guide is a runnable lab that creates its workspace under `sandbox/` at the repo root and
-ends with a cleanup step. Prerequisites, the OKF frontmatter format, and conventions are in
+Every guide is a runnable lab: its Setup section copies a starter directory from
+[`labs/`](../labs/README.md) into `sandbox/` at the repo root, and it ends with a cleanup step. Prerequisites, the OKF frontmatter format, and conventions are in
 the [repository README](../README.md).
 
 ---

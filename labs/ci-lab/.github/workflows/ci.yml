@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lock:
+    name: Lockfile in sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          pixi-version: latest
+          run-install: false
+      - run: pixi lock --check
+
+  unit:
+    name: Unit Tests (${{ matrix.env }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        env: [py312, py313, py314]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          pixi-version: latest
+          cache: true
+          locked: true
+          environments: ${{ matrix.env }}
+      - run: pixi run -e ${{ matrix.env }} test
+
+  full:
+    name: Full CI (${{ matrix.env }})
+    runs-on: ubuntu-latest
+    needs: [lock, unit]
+    strategy:
+      fail-fast: false
+      matrix:
+        env: [py312, py313, py314]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          pixi-version: latest
+          cache: true
+          locked: true
+          environments: ${{ matrix.env }}
+      - run: pixi run -e ${{ matrix.env }} ci

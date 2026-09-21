@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "import-lab"
+version = "0.1.0"
+description = "Poetry-managed fixture for the import lab"
+authors = ["Kevin Mills <millsks@gmail.com>"]
+packages = [{ include = "import_lab", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.15"
+rich = ">=14"
+httpx = ">=0.28"
+structlog = ">=25"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8"
+
+[build-system]
+requires = ["poetry-core>=2.0"]
+build-backend = "poetry.core.masonry.api"

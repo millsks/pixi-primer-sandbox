@@ -74,7 +74,7 @@ pixi config set --global shell.change-ps1 false
 Lab (safe — writes only to a sandbox workspace):
 
 ```sh
-mkdir -p sandbox && cd sandbox && pixi init config-lab && cd config-lab
+cp -r labs/config-lab sandbox/ && cd sandbox/config-lab && pixi init .
 pixi config set --local tls-root-certs system
 pixi config set --local pinning-strategy minor
 cat .pixi/config.toml

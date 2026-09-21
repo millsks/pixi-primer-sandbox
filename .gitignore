@@ -217,5 +217,6 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Primer lab workspaces — never commit
-sandbox/
+# Primer lab workspaces — never commit (keep the placeholder so the directory exists on clone)
+sandbox/*
+!sandbox/.gitkeep

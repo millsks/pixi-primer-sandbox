@@ -59,9 +59,8 @@ check when something behaves unexpectedly.
 ## 2. Create a workspace
 
 ```sh
-mkdir -p sandbox && cd sandbox
-pixi init hello-pixi
-cd hello-pixi
+cp -r labs/hello-pixi sandbox/ && cd sandbox/hello-pixi
+pixi init .
 cat pixi.toml
 ```
 

@@ -30,8 +30,8 @@ re-solving.
 ## Setup
 
 ```sh
-mkdir -p sandbox && cd sandbox
-pixi init platform-lab && cd platform-lab
+cp -r labs/platform-lab sandbox/ && cd sandbox/platform-lab
+pixi init .
 pixi add "python=3.14.*" rich
 ```
 

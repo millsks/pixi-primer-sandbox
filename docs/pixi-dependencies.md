@@ -30,10 +30,12 @@ top of the conda solution). The rule in this primer is **conda-forge first**: re
 ## Setup
 
 ```sh
-mkdir -p sandbox && cd sandbox
-pixi init deps-lab && cd deps-lab
+cp -r labs/deps-lab sandbox/ && cd sandbox/deps-lab
+pixi init --format pixi .        # a pyproject.toml is present; force a separate pixi.toml
 pixi add "python=3.14.*"
 ```
+
+The lab ships a `pyproject.toml` and `src/deps_lab/` for the editable-install step in §3.
 
 ---
 
@@ -114,10 +116,12 @@ Rules of thumb:
 
 ### Editable install of the workspace package
 
-For a `src/` layout project with a `pyproject.toml`:
+The lab is a `src/` layout project with a `pyproject.toml`, so the workspace itself can be
+installed editable:
 
 ```sh
 pixi add --pypi --editable "deps-lab @ ."
+pixi run python -c "import deps_lab; print(deps_lab.hello())"
 ```
 
 Writes `deps-lab = { path = ".", editable = true }` into `[pypi-dependencies]`. This is how

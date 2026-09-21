@@ -1,0 +1,15 @@
+
+# Appended to pixi.toml after `pixi init .` and `pixi workspace preview add pixi-build`.
+[package]
+name = "build-lab"
+version = "0.1.0"
+
+[package.build]
+backend = { name = "pixi-build-python", version = "*" }
+
+[package.host-dependencies]
+hatchling = "*"
+python = "3.14.*"
+
+[package.run-dependencies]
+python = "3.14.*"
