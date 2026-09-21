@@ -2,7 +2,7 @@
 
 A hands-on primer for [pixi](https://pixi.prefix.dev/): one markdown guide per topic, each
 written as a lab you run locally against a throwaway workspace. The guides live in
-[`docs/`](docs/); the index that tells you which one to open is
+[`docs/`](docs/README.md); the index that tells you which one to open is
 [**`docs/README.md`**](docs/README.md).
 
 ## Prerequisites
@@ -27,14 +27,33 @@ order for readers who want a course and a by-question lookup for readers who wan
 ## Repository layout
 
 ```
-README.md          this file: what the repo is, how to use it, document conventions
-docs/README.md     the index: learning order, "I want to..." lookup, list of all guides
-docs/pixi-*.md     the guides
-labs/README.md     index of lab directories and what each ships
-labs/<lab>/        pristine starter files for one lab — copy, never edit in place
-sandbox/           where copied labs are worked on (gitignored except .gitkeep)
-LICENSE
+README.md               this file: what the repo is, how to use it, document conventions
+docs/README.md          the index: learning order, "I want to..." lookup, list of all guides
+docs/pixi-*.md          the guides
+labs/README.md          index of lab directories and what each ships
+labs/<lab>/             pristine starter files for one lab — copy, never edit in place
+sandbox/                where copied labs are worked on (gitignored except .gitkeep)
+pixi.toml, pixi.lock    the repo's own workspace: the docs environment and site tasks
+mkdocs.yml              site configuration (the repo root is the docs root)
+.github/workflows/      builds the site on every PR, deploys it to GitHub Pages from main
 ```
+
+## Documentation site
+
+The same content is published at <https://millsks.github.io/pixi-primer-sandbox/>, built
+with MkDocs (Material theme) from this repository's own pixi workspace — Python 3.14 plus a
+`docs` feature holding `mkdocs`, `mkdocs-material`, and `mkdocs-same-dir` (the plugin that
+lets the repo root be the docs root so relative links work identically on GitHub and on the
+site).
+
+```sh
+pixi run -e docs docs-serve     # live preview at http://127.0.0.1:8000
+pixi run -e docs docs-build     # strict build into site/ (any warning fails)
+pixi run ci                     # what the Docs workflow runs on every PR
+```
+
+Pushes to `main` deploy through `.github/workflows/docs.yml` (`actions/deploy-pages`); the
+repository's Pages source is set to "GitHub Actions".
 
 ## Document format
 
@@ -75,4 +94,4 @@ sources:
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/millsks/pixi-primer-sandbox/blob/main/LICENSE)
