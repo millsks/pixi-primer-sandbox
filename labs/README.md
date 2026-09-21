@@ -32,19 +32,19 @@ rm -rf sandbox/<lab> && cp -r labs/<lab> sandbox/
 
 | Lab | Guide | Starter files |
 |---|---|---|
-| [`hello-pixi/`](hello-pixi/) | [Getting Started](../docs/pixi-getting-started.md) | — |
-| [`manifest-lab/`](manifest-lab/) | [Manifest Reference](../docs/pixi-manifest-reference.md) | `pixi.toml` exercising every table |
-| [`deps-lab/`](deps-lab/) | [Managing Dependencies](../docs/pixi-dependencies.md) | `pyproject.toml` + `src/deps_lab/` for the editable-install step |
-| [`tasks-lab/`](tasks-lab/) | [Pixi Tasks](../docs/pixi-tasks.md) | `scripts/where.py`, `in.txt` |
-| [`envs-lab/`](envs-lab/) | [Features and Environments](../docs/pixi-features-environments.md) | `tests/test_smoke.py` |
-| [`lock-lab/`](lock-lab/) | [Lockfile and Reproducibility](../docs/pixi-lockfile-updates.md) | — |
-| [`platform-lab/`](platform-lab/) | [Multi-Platform Workspaces](../docs/pixi-multi-platform.md) | — |
-| [`act-lab/`](act-lab/) | [Activation, Shells, Env Vars](../docs/pixi-activation-shell.md) | `scripts/env.sh` |
-| [`scripts-lab/`](scripts-lab/) | [Scripts and pixi exec](../docs/pixi-scripts-exec.md) | — |
-| [`config-lab/`](config-lab/) | [Pixi Configuration](../docs/pixi-config.md) | — |
-| [`import-lab/`](import-lab/) | [Importing Existing Environments](../docs/pixi-import-guide.md) | one fixture per source format |
-| [`ci-lab/`](ci-lab/) | [CI with GitHub Actions](../docs/pixi-ci-github-actions.md) | `.github/workflows/ci.yml`, `Dockerfile` |
-| [`build-lab/`](build-lab/) | [Building Conda Packages](../docs/pixi-build-packages.md) | `pyproject.toml`, `src/build_lab/`, `package.toml` |
+| [`hello-pixi/`](hello-pixi/README.md) | [Getting Started](../docs/pixi-getting-started.md) | — |
+| [`manifest-lab/`](manifest-lab/README.md) | [Manifest Reference](../docs/pixi-manifest-reference.md) | `pixi.toml` exercising every table |
+| [`deps-lab/`](deps-lab/README.md) | [Managing Dependencies](../docs/pixi-dependencies.md) | `pyproject.toml` + `src/deps_lab/` for the editable-install step |
+| [`tasks-lab/`](tasks-lab/README.md) | [Pixi Tasks](../docs/pixi-tasks.md) | `scripts/where.py`, `in.txt` |
+| [`envs-lab/`](envs-lab/README.md) | [Features and Environments](../docs/pixi-features-environments.md) | `tests/test_smoke.py` |
+| [`lock-lab/`](lock-lab/README.md) | [Lockfile and Reproducibility](../docs/pixi-lockfile-updates.md) | — |
+| [`platform-lab/`](platform-lab/README.md) | [Multi-Platform Workspaces](../docs/pixi-multi-platform.md) | — |
+| [`act-lab/`](act-lab/README.md) | [Activation, Shells, Env Vars](../docs/pixi-activation-shell.md) | `scripts/env.sh` |
+| [`scripts-lab/`](scripts-lab/README.md) | [Scripts and pixi exec](../docs/pixi-scripts-exec.md) | — |
+| [`config-lab/`](config-lab/README.md) | [Pixi Configuration](../docs/pixi-config.md) | — |
+| [`import-lab/`](import-lab/README.md) | [Importing Existing Environments](../docs/pixi-import-guide.md) | one fixture per source format |
+| [`ci-lab/`](ci-lab/README.md) | [CI with GitHub Actions](../docs/pixi-ci-github-actions.md) | `.github/workflows/ci.yml`, `Dockerfile` |
+| [`build-lab/`](build-lab/README.md) | [Building Conda Packages](../docs/pixi-build-packages.md) | `pyproject.toml`, `src/build_lab/`, `package.toml` |
 
 [Global Tools](../docs/pixi-global-tools.md) and [Troubleshooting](../docs/pixi-troubleshooting.md)
 have no lab directory: the first operates on `~/.pixi`, the second is a reference.

@@ -130,9 +130,11 @@ PY
 pixi run --script hello.py
 ```
 
-`--script` (or `-s`) is required when there is no workspace in the current directory — a bare
-`pixi run hello.py` looks for a `pixi.toml` and errors. Script arguments go after `--`, or
-pixi tries to parse them as its own flags:
+`--script` (or `-s`) is required: a bare `pixi run hello.py` is treated as a task or command
+in the nearest workspace (pixi searches parent directories — from `sandbox/scripts-lab` it
+finds this repo's own `pixi.toml` and reports that no task called `hello.py` exists) or errors
+when there is no workspace at all. Script arguments go after `--`, or pixi tries to parse them
+as its own flags:
 
 ```sh
 pixi run --script hello.py -- --flag value

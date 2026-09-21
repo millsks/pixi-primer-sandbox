@@ -1,0 +1,115 @@
+site_name: Pixi Primer
+site_description: A hands-on primer for pixi — one runnable lab per topic.
+site_url: https://millsks.github.io/pixi-primer-sandbox/
+repo_url: https://github.com/millsks/pixi-primer-sandbox
+repo_name: millsks/pixi-primer-sandbox
+edit_uri: edit/main/
+
+# The repository root is the docs root so that README.md, docs/ and labs/ keep their
+# relative links intact both on GitHub and on the site.
+docs_dir: .
+site_dir: site
+exclude_docs: |
+  .pixi/
+  .git/
+  .github/
+  sandbox/
+  site/
+  labs/**/*.py
+  labs/**/*.toml
+  labs/**/*.txt
+  labs/**/*.sh
+  labs/**/*.yml
+  labs/**/Dockerfile
+  labs/**/Pipfile
+  pixi.toml
+  pixi.lock
+  mkdocs.yml
+
+strict: true
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - content.code.copy
+    - content.action.edit
+    - search.suggest
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - same-dir
+  - search
+
+nav:
+  - Overview: README.md
+  - Index: docs/README.md
+  - Guides:
+      - Getting Started: docs/pixi-getting-started.md
+      - Manifest Reference: docs/pixi-manifest-reference.md
+      - Managing Dependencies: docs/pixi-dependencies.md
+      - Tasks: docs/pixi-tasks.md
+      - Features and Environments: docs/pixi-features-environments.md
+      - Lockfile and Reproducibility: docs/pixi-lockfile-updates.md
+      - Multi-Platform Workspaces: docs/pixi-multi-platform.md
+      - Activation, Shells, Env Vars: docs/pixi-activation-shell.md
+      - Scripts and pixi exec: docs/pixi-scripts-exec.md
+      - Global Tools: docs/pixi-global-tools.md
+      - Configuration: docs/pixi-config.md
+      - Importing Existing Environments: docs/pixi-import-guide.md
+      - CI with GitHub Actions: docs/pixi-ci-github-actions.md
+      - Building Conda Packages: docs/pixi-build-packages.md
+      - Troubleshooting: docs/pixi-troubleshooting.md
+  - Labs:
+      - Starter Files: labs/README.md
+      - hello-pixi: labs/hello-pixi/README.md
+      - manifest-lab: labs/manifest-lab/README.md
+      - deps-lab: labs/deps-lab/README.md
+      - tasks-lab: labs/tasks-lab/README.md
+      - envs-lab: labs/envs-lab/README.md
+      - lock-lab: labs/lock-lab/README.md
+      - platform-lab: labs/platform-lab/README.md
+      - act-lab: labs/act-lab/README.md
+      - scripts-lab: labs/scripts-lab/README.md
+      - config-lab: labs/config-lab/README.md
+      - import-lab: labs/import-lab/README.md
+      - ci-lab: labs/ci-lab/README.md
+      - build-lab: labs/build-lab/README.md
