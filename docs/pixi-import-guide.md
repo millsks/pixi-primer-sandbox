@@ -34,12 +34,26 @@ imported by first exporting it to a `requirements.txt` and then running the
 every PyPI-derived format you must add `python=3.14.*` yourself so it lands in
 `[dependencies]` (conda-forge), not `[pypi-dependencies]`.
 
+Lab fixtures: `labs/import-lab/` holds one example manifest per format below, all describing
+the same small project. Copy it into the sandbox and work inside the format's subdirectory:
+
+```sh
+cp -r labs/import-lab sandbox/ && cd sandbox/import-lab/<format>
+```
+
+When the directory already holds a `pyproject.toml`, plain `pixi init .` prompts to embed pixi
+config in it; use `pixi init --format pixi .` to get a separate `pixi.toml` without the prompt.
+
 Conventions used below:
 
 - All commands run from the workspace root (the directory containing `pixi.toml`).
 - `pixi init` is always used to create the manifest — never hand-write `pixi.toml`.
 - Pixi config stays in `pixi.toml`; `pyproject.toml` is for Python tool config only.
-- `<feature>` is optional. Omit `-f <feature>` everywhere to write into the default environment.
+- `-f default` writes into the top-level `[dependencies]` / `[pypi-dependencies]` tables. Any other
+  `-f <feature>` creates that feature plus an environment of the same name (`no-default-feature = true`).
+  Omitting `-f` entirely does **not** target the default environment: `conda-env` then creates an
+  environment named after the YAML `name:` with its dependencies written inline
+  (`[environments.<name>.dependencies]`), and `pypi-txt` errors with "Missing name".
 
 ---
 
@@ -53,17 +67,18 @@ The only format that maps both conda and pip sections natively.
    ```
 2. Import the file:
    ```sh
-   pixi import --format conda-env environment.yml
+   pixi import --format conda-env -f default environment.yml
    # or into a named feature/environment:
    pixi import --format conda-env -f <feature> environment.yml
    ```
-   - Top-level conda entries go to `[dependencies]` (or `[feature.<feature>.dependencies]`).
-   - A nested `pip:` list goes to `[pypi-dependencies]`.
-   - `channels:` are appended to `[workspace].channels`.
+   - With `-f default`: top-level conda entries go to `[dependencies]`, the nested `pip:` list to
+     `[pypi-dependencies]`, and `channels:` are merged into `[workspace].channels`.
+   - With `-f <feature>`: the same tables under `[feature.<feature>.*]`, plus
+     `[environments] <feature> = { features = ["<feature>"], no-default-feature = true }`.
 3. Check the Python pin. If the YAML pinned an older Python (e.g. `python=3.13`), bump it:
    ```sh
-   pixi add python=3.14.*
-   # or: pixi add -f <feature> python=3.14.*
+   pixi add "python=3.14.*"
+   # or: pixi add -f <feature> "python=3.14.*"
    ```
    If the YAML had no `python` entry at all, the same command adds it.
 4. Remove the `pip = "*"` entry the import carries over — pixi installs PyPI deps with uv, so `pip` is not needed:
@@ -88,8 +103,8 @@ The base flow every other PyPI format funnels into.
    ```
 2. Add Python **before** importing, so the solver has an interpreter to resolve PyPI wheels against:
    ```sh
-   pixi add python=3.14.*
-   # or: pixi add -f <feature> python=3.14.*
+   pixi add "python=3.14.*"
+   # or: pixi add -f <feature> "python=3.14.*"
    ```
 3. Flatten the requirements file if it uses `-r other.txt` includes or `--index-url` options — `pypi-txt` does not honor them:
    ```sh
@@ -97,7 +112,7 @@ The base flow every other PyPI format funnels into.
    ```
 4. Import:
    ```sh
-   pixi import --format pypi-txt requirements.flat.txt
+   pixi import --format pypi-txt -f default requirements.flat.txt
    # or: pixi import --format pypi-txt -f <feature> requirements.flat.txt
    ```
    Everything lands in `[pypi-dependencies]`; nothing is remapped to conda-forge.
@@ -121,12 +136,12 @@ Not an import format. Export the dependency list to `requirements.txt` and follo
 
 1. Create the workspace if it does not exist:
    ```sh
-   pixi init .
+   pixi init --format pixi .
    ```
    Do **not** use `pixi init --pyproject` — that embeds pixi config into `pyproject.toml`.
 2. Add Python:
    ```sh
-   pixi add python=3.14.*
+   pixi add "python=3.14.*"
    ```
 3. Export `[project.dependencies]` (and optional extras) to a flat requirements file:
    ```sh
@@ -135,7 +150,7 @@ Not an import format. Export the dependency list to `requirements.txt` and follo
    ```
 4. Import:
    ```sh
-   pixi import --format pypi-txt requirements.flat.txt
+   pixi import --format pypi-txt -f default requirements.flat.txt
    ```
 5. Add the project itself as an editable install:
    ```sh
@@ -154,21 +169,21 @@ Not an import format. Export the dependency list to `requirements.txt` and follo
 
 1. Create the workspace if it does not exist:
    ```sh
-   pixi init .
+   pixi init --format pixi .
    ```
 2. Add Python:
    ```sh
-   pixi add python=3.14.*
+   pixi add "python=3.14.*"
    ```
 3. Export from Poetry (requires the `poetry-plugin-export` plugin on Poetry ≥ 1.2):
    ```sh
-   poetry export -f requirements.txt --without-hashes -o requirements.flat.txt
+   pixi exec --with poetry-plugin-export poetry export -f requirements.txt --without-hashes -o requirements.flat.txt
    # include groups with: --with dev --with docs
    ```
    `poetry export` already resolves `poetry.lock`, so the output is flat and pinned.
 4. Import:
    ```sh
-   pixi import --format pypi-txt requirements.flat.txt
+   pixi import --format pypi-txt -f default requirements.flat.txt
    ```
 5. Add the project itself as an editable install:
    ```sh
@@ -187,21 +202,21 @@ Not an import format. Export the dependency list to `requirements.txt` and follo
 
 1. Create the workspace if it does not exist:
    ```sh
-   pixi init .
+   pixi init --format pixi .
    ```
 2. Add Python:
    ```sh
-   pixi add python=3.14.*
+   pixi add "python=3.14.*"
    ```
 3. Export from uv (resolves `uv.lock`, so the output is flat and pinned):
    ```sh
-   uv export --format requirements-txt --no-hashes --no-emit-project -o requirements.flat.txt
+   pixi exec uv export --format requirements-txt --no-hashes --no-emit-project -o requirements.flat.txt
    # include dependency groups with: --group dev --group docs
    ```
    `--no-emit-project` keeps the local project out of the list; it is added as editable in step 5.
 4. Import:
    ```sh
-   pixi import --format pypi-txt requirements.flat.txt
+   pixi import --format pypi-txt -f default requirements.flat.txt
    ```
 5. Add the project itself as an editable install:
    ```sh
@@ -220,20 +235,20 @@ Not an import format. Export the dependency list to `requirements.txt` and follo
 
 1. Create the workspace if it does not exist:
    ```sh
-   pixi init .
+   pixi init --format pixi .
    ```
 2. Add Python:
    ```sh
-   pixi add python=3.14.*
+   pixi add "python=3.14.*"
    ```
 3. Export from PDM:
    ```sh
-   pdm export -f requirements --without-hashes -o requirements.flat.txt
+   pixi exec pdm export -f requirements --without-hashes -o requirements.flat.txt
    # include groups with: -G dev -G docs
    ```
 4. Import:
    ```sh
-   pixi import --format pypi-txt requirements.flat.txt
+   pixi import --format pypi-txt -f default requirements.flat.txt
    ```
 5. Add the project itself as an editable install:
    ```sh
@@ -256,16 +271,16 @@ Not an import format. Export the dependency list to `requirements.txt` and follo
    ```
 2. Add Python:
    ```sh
-   pixi add python=3.14.*
+   pixi add "python=3.14.*"
    ```
 3. Export from Pipenv:
    ```sh
-   pipenv requirements > requirements.flat.txt
+   pixi exec pipenv requirements > requirements.flat.txt
    # include dev packages with: --dev
    ```
 4. Import:
    ```sh
-   pixi import --format pypi-txt requirements.flat.txt
+   pixi import --format pypi-txt -f default requirements.flat.txt
    ```
 5. Move conda-forge-available packages to `[dependencies]` (see §2 step 5).
 6. Solve and install:

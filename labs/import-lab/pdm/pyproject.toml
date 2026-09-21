@@ -1,0 +1,22 @@
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[project]
+name = "import-lab"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "rich>=14",
+  "httpx>=0.28",
+  "structlog>=25",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.build]
+package-dir = "src"

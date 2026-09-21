@@ -1,0 +1,11 @@
+name: import-lab
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - rich>=14
+  - httpx>=0.28
+  - pytest>=8
+  - pip
+  - pip:
+      - structlog>=25

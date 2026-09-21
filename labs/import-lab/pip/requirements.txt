@@ -1,0 +1,5 @@
+# Top-level requirements; pulls in the dev file via -r (pypi-txt does not follow it).
+-r requirements-dev.txt
+rich>=14
+httpx>=0.28
+structlog>=25

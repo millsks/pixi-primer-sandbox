@@ -30,10 +30,13 @@ docs/lint virtualenvs.
 ## Setup
 
 ```sh
-mkdir -p sandbox && cd sandbox
-pixi init envs-lab && cd envs-lab
+cp -r labs/envs-lab sandbox/ && cd sandbox/envs-lab
+pixi init .
 pixi add "python=3.14.*" rich
 ```
+
+The lab ships `tests/test_smoke.py`, which asserts the interpreter version and reports the
+`PIXI_ENVIRONMENT_NAME` it ran under.
 
 ---
 
@@ -67,8 +70,8 @@ test = { features = ["test"], solve-group = "default" }
 The `test` environment = `default` feature + `test` feature. Run in it with `-e`:
 
 ```sh
-pixi run -e test pytest --version
-pixi run pytest --version          # fails: pytest is not in the default environment
+pixi run -e test pytest -q
+pixi run pytest -q                 # fails: pytest is not in the default environment
 ```
 
 ---

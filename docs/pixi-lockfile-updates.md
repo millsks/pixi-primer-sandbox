@@ -34,8 +34,8 @@ in PRs like code.
 ## Setup
 
 ```sh
-mkdir -p sandbox && cd sandbox
-pixi init lock-lab && cd lock-lab
+cp -r labs/lock-lab sandbox/ && cd sandbox/lock-lab
+pixi init .
 pixi add "python=3.14.*" rich
 pixi add --pypi structlog
 ```

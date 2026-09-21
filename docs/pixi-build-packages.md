@@ -34,16 +34,15 @@ to an internal PyPI index.
 ## Setup
 
 ```sh
-mkdir -p sandbox && cd sandbox
-pixi init build-lab && cd build-lab
-mkdir -p src/build_lab
-printf 'def hello() -> str:\n    return "hello from build_lab"\n' > src/build_lab/__init__.py
+cp -r labs/build-lab sandbox/ && cd sandbox/build-lab
+pixi init --format pixi .        # a pyproject.toml is present; force a separate pixi.toml
+tree . 2>/dev/null || find . -type f
 ```
 
-A standard `pyproject.toml` — this is what the Python build backend (hatchling) reads:
+The lab ships `src/build_lab/__init__.py`, a `package.toml` snippet for §1, and a standard
+`pyproject.toml` — this is what the Python build backend (hatchling) reads:
 
-```sh
-cat > pyproject.toml <<'TOML'
+```toml
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
@@ -56,7 +55,6 @@ dependencies = []
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/build_lab"]
-TOML
 ```
 
 ---
@@ -68,11 +66,14 @@ pixi workspace preview add pixi-build
 pixi add "python=3.14.*"
 ```
 
-Append the package tables to `pixi.toml` (no CLI writes these yet):
+Append the package tables to `pixi.toml` — no CLI writes these yet, so the lab ships them as
+`package.toml`:
 
 ```sh
-cat >> pixi.toml <<'TOML'
+cat package.toml >> pixi.toml
+```
 
+```toml
 [package]
 name = "build-lab"
 version = "0.1.0"
@@ -86,7 +87,6 @@ python = "3.14.*"
 
 [package.run-dependencies]
 python = "3.14.*"
-TOML
 ```
 
 | Table | Meaning |

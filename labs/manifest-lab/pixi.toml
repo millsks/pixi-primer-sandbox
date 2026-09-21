@@ -1,0 +1,53 @@
+# Every table from docs/pixi-manifest-reference.md, in one solvable manifest.
+# Validate after any edit with:  pixi lock --dry-run
+
+[workspace]
+name = "manifest-lab"
+version = "0.1.0"
+description = "Exercise every pixi.toml table"
+channels = ["conda-forge"]
+platforms = ["osx-arm64", "linux-64", "win-64"]
+requires-pixi = ">=0.81"
+
+[dependencies]
+python = "3.14.*"
+rich = ">=14"
+
+[pypi-dependencies]
+structlog = ">=25"
+
+[tasks]
+hello = { cmd = "python -c 'import rich; rich.print(\"[green]hello from manifest-lab[/]\")'", description = "Smoke test" }
+greet = { cmd = "echo Hello {{ name }}", args = [{ arg = "name", default = "world" }] }
+ci = { depends-on = ["hello", "greet"] }
+
+[feature.test.dependencies]
+pytest = ">=8"
+
+[feature.test.tasks]
+test = "pytest --version"
+
+[feature.py312.dependencies]
+python = "3.12.*"
+
+[environments]
+default = { solve-group = "default" }
+test = { features = ["test"], solve-group = "default" }
+py312 = { features = ["py312", "test"], no-default-feature = true }
+
+[target.linux-64.dependencies]
+patchelf = "*"
+
+[target.win-64.tasks]
+open = "start ."
+
+[target.unix.tasks]
+open = "open ."
+
+[activation.env]
+PYTHONUNBUFFERED = "1"
+LAB_ROOT = "$PIXI_PROJECT_ROOT"
+
+[system-requirements]
+macos = "13.0"
+linux = "4.18"

@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+rich = ">=14"
+httpx = ">=0.28"
+structlog = ">=25"
+
+[dev-packages]
+pytest = ">=8"
+
+[requires]
+python_version = "3.13"

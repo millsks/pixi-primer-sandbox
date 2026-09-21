@@ -31,10 +31,12 @@ to `PATH`, set `CONDA_PREFIX`, run each package's own activation scripts, then a
 ## Setup
 
 ```sh
-mkdir -p sandbox && cd sandbox
-pixi init act-lab && cd act-lab
+cp -r labs/act-lab sandbox/ && cd sandbox/act-lab
+pixi init .
 pixi add "python=3.14.*"
 ```
+
+The lab ships `scripts/env.sh` for §3.
 
 ---
 
@@ -93,11 +95,7 @@ per-platform tables are supported (`[feature.gpu.activation.env]`,
 For anything dynamic — computed paths, `source`-ing a vendor SDK, tool init:
 
 ```sh
-mkdir -p scripts
-cat > scripts/env.sh <<'SH'
-export BUILD_STAMP="$(date +%Y%m%d)"
-export TOOLCHAIN_ROOT="$PIXI_PROJECT_ROOT/toolchain"
-SH
+cat scripts/env.sh
 pixi workspace activation script add scripts/env.sh
 pixi run 'echo stamp=$BUILD_STAMP root=$TOOLCHAIN_ROOT'
 ```
